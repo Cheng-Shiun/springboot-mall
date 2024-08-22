@@ -9,12 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductController {
 
     @Autowired
     private ProductService productService;
-
 
     //查詢商品
     @GetMapping("/products/{productId}")
@@ -26,6 +27,17 @@ public class ProductController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    //查詢商品列表
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getProducts() {
+        List<Product> productList = productService.getProducts();
+
+
+        //RESTful API的設計理念，查詢列表無論是否有數據，都需要返回200狀態碼 -> 為了確保這個請求資源是正確的
+        //與查詢單項商品不同，查無數據則表示無該個請求資源，因此需要回傳404 NOT_FOUND
+        return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 
     //新增商品
