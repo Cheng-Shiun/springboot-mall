@@ -1,5 +1,6 @@
 package com.chengshiun.springbootmall.controller;
 
+import com.chengshiun.springbootmall.constant.ProductCategory;
 import com.chengshiun.springbootmall.dto.ProductRequest;
 import com.chengshiun.springbootmall.model.Product;
 import com.chengshiun.springbootmall.service.ProductService;
@@ -31,9 +32,10 @@ public class ProductController {
 
     //查詢商品列表
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts() {
-        List<Product> productList = productService.getProducts();
-
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam (required = false) ProductCategory category,
+            @RequestParam (required = false) String search) {
+        List<Product> productList = productService.getProducts(category, search);
 
         //RESTful API的設計理念，查詢列表無論是否有數據，都需要返回200狀態碼 -> 為了確保這個請求資源是正確的
         //與查詢單項商品不同，查無數據則表示無該個請求資源，因此需要回傳404 NOT_FOUND
