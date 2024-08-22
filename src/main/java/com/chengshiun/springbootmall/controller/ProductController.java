@@ -32,7 +32,9 @@ public class ProductController {
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest productRequest) {
         Integer productId = productService.createProduct(productRequest);
+
         Product product = productService.getProductById(productId);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
@@ -51,6 +53,13 @@ public class ProductController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
 
+    //刪除商品
+    @DeleteMapping("/products/{productId}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Integer productId) {
+        productService.deleteProductById(productId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
