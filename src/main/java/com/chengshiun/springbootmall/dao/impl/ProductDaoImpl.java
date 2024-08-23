@@ -24,6 +24,38 @@ public class ProductDaoImpl implements ProductDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    //定義查詢條件方法
+    private String addFilteringSql(String sql, Map<String, Object> map, ProductQueryParams productQueryParams) {
+        //查詢條件
+        //判斷是否有請求category參數
+        if (productQueryParams.getCategory() != null) {
+            sql = sql + "AND category = :category ";
+            map.put("category", productQueryParams.getCategory().name());   //把category參數從 enum -> String
+        }
+
+        //判斷是否有請求search參數
+        if (productQueryParams.getSearch() != null) {
+            sql = sql + "AND product_name LIKE :search ";
+            map.put("search", "%" + productQueryParams.getSearch() + "%");
+        }
+
+        return sql;
+    }
+
+    @Override
+    public Integer countProduct(ProductQueryParams productQueryParams) {
+        String sql = "SELECT count(*) FROM product WHERE 1=1 ";
+
+        Map<String, Object> map = new HashMap<>();
+
+        //串接查詢條件SQL語句
+        sql = addFilteringSql(sql, map, productQueryParams);
+
+        Integer total = namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
+
+        return total;
+    }
+
     @Override
     public Product getProductById(Integer productId) {
         String sql = "SELECT product_id, product_name, category, image_url, price, stock," +
@@ -48,18 +80,8 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
-        //查詢條件
-        //判斷是否有請求category參數
-        if (productQueryParams.getCategory() != null) {
-            sql = sql + "AND category = :category ";
-            map.put("category", productQueryParams.getCategory().name());   //把category參數從 enum -> String
-        }
-
-        //判斷是否有請求search參數
-        if (productQueryParams.getSearch() != null) {
-            sql = sql + "AND product_name LIKE :search ";
-            map.put("search", "%" + productQueryParams.getSearch() + "%");
-        }
+        //串接查詢條件SQL語句
+        sql = addFilteringSql(sql, map, productQueryParams);
 
         //排序
         //排序參數有預設值，不須判斷是否為null
@@ -73,7 +95,7 @@ public class ProductDaoImpl implements ProductDao {
         map.put("offset", productQueryParams.getOffset());
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
-
+        System.out.println(productList.size());
         return productList;
     }
 
