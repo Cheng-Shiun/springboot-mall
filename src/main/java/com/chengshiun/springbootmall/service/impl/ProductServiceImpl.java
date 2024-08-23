@@ -1,6 +1,5 @@
 package com.chengshiun.springbootmall.service.impl;
 
-import com.chengshiun.springbootmall.constant.ProductCategory;
 import com.chengshiun.springbootmall.dao.ProductDao;
 import com.chengshiun.springbootmall.dto.ProductQueryParams;
 import com.chengshiun.springbootmall.dto.ProductRequest;

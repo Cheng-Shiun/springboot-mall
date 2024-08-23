@@ -48,6 +48,7 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
+        //查詢條件
         //判斷是否有請求category參數
         if (productQueryParams.getCategory() != null) {
             sql = sql + "AND category = :category ";
@@ -60,9 +61,16 @@ public class ProductDaoImpl implements ProductDao {
             map.put("search", "%" + productQueryParams.getSearch() + "%");
         }
 
+        //排序
         //排序參數有預設值，不須判斷是否為null
         //升降排序的SQL值是直接加在語句最後面(記得須留一個空格)
         sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
+
+        //分頁
+        //分頁的SQL語句接在ORDER BY後面
+        sql = sql + " LIMIT :limit OFFSET :offset";
+        map.put("limit", productQueryParams.getLimit());
+        map.put("offset", productQueryParams.getOffset());
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
