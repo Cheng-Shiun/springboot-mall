@@ -1,6 +1,7 @@
 package com.chengshiun.springbootmall.dao;
 
 import com.chengshiun.springbootmall.constant.ProductCategory;
+import com.chengshiun.springbootmall.dto.ProductQueryParams;
 import com.chengshiun.springbootmall.dto.ProductRequest;
 import com.chengshiun.springbootmall.model.Product;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public interface ProductDao {
     Product getProductById(Integer productId);
 
-    List<Product> getProducts(ProductCategory category, String search);
+    List<Product> getProducts(ProductQueryParams productQueryParams);
 
     Integer createProduct(ProductRequest productRequest);
 
