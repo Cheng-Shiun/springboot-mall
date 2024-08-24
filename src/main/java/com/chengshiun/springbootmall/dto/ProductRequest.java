@@ -4,6 +4,7 @@ import com.chengshiun.springbootmall.constant.ProductCategory;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+//新增、更新商品時使用的dto class
 public class ProductRequest {
 
     @NotNull

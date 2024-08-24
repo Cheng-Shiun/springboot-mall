@@ -2,6 +2,7 @@ package com.chengshiun.springbootmall.dto;
 
 import com.chengshiun.springbootmall.constant.ProductCategory;
 
+//查詢條件使用的dto class
 public class ProductQueryParams {
     private ProductCategory category;
     private String search;
