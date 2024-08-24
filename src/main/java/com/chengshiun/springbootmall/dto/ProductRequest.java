@@ -13,9 +13,10 @@ public class ProductRequest {
     @NotNull
     private String imageUrl;
     @NotNull
-    @Min(0)
+    @Min(1)
     private Integer price;
     @NotNull
+    @Min(0)
     private Integer stock;
 
     private String description;
