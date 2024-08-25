@@ -72,6 +72,7 @@ public class UserControllerTest {
 
     //註冊帳號
     @Test
+    @Transactional
     public void register_success() throws Exception {
         //新增一個註冊帳號 object
         UserRegisterRequest userRegisterRequest = new UserRegisterRequest();
@@ -102,6 +103,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @Transactional
     public void register_illegalEmailFormat() throws Exception {
         //新增一個註冊帳號 object
         UserRegisterRequest userRegisterRequest = new UserRegisterRequest();
@@ -121,6 +123,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @Transactional
     public void register_emailAlreadyRegistered() throws Exception {
         //新增一個已註冊帳號 object
         UserRegisterRequest userRegisterRequest = new UserRegisterRequest();
@@ -140,6 +143,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @Transactional
     public void register_emailAlreadyExist() throws Exception {
         //新增一個新註冊帳號 object
         UserRegisterRequest userRegisterRequest = new UserRegisterRequest();
@@ -164,6 +168,7 @@ public class UserControllerTest {
 
     //登入
     @Test
+    @Transactional
     public void login_success() throws Exception {
         //先註冊新帳號
         UserRegisterRequest userRegisterRequest = new UserRegisterRequest();
@@ -193,6 +198,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @Transactional
     public void login_userEmailNotExist() throws Exception {
         //使用資料庫中未註冊 email 進行登入
         UserLoginRequest userLoginRequest = new UserLoginRequest();
@@ -211,6 +217,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @Transactional
     public void login_illegalEmailFormat() throws Exception {
         //使用錯誤格式 email 進行登入
         UserLoginRequest userLoginRequest = new UserLoginRequest();
@@ -229,6 +236,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @Transactional
     public void login_wrongPassword() throws Exception {
         //先註冊新帳號
         UserRegisterRequest userRegisterRequest = new UserRegisterRequest();
