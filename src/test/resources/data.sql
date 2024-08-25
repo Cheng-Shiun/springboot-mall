@@ -8,3 +8,5 @@ INSERT INTO product (product_name, category, image_url, price, stock, descriptio
 INSERT INTO product (product_name, category, image_url, price, stock, description, created_date, last_modified_date) VALUES ('Tesla', 'CAR', 'https://cdn.pixabay.com/photo/2021/01/15/16/49/tesla-5919764_1280.jpg', 450000, 5, '世界最暢銷的充電式汽車', '2022-03-21 23:30:00', '2022-03-21 23:30:00');
 
 
+-- user
+INSERT INTO `user` (email, password, created_date, last_modified_date) VALUES ('test100@gmail.com', '100', '2022-03-19 17:00:00', '2022-03-22 18:00:00');
