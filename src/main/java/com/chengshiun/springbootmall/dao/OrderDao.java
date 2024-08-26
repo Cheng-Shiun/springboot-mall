@@ -1,10 +1,15 @@
 package com.chengshiun.springbootmall.dao;
 
+import com.chengshiun.springbootmall.model.Order;
 import com.chengshiun.springbootmall.model.OrderItem;
 
 import java.util.List;
 
 public interface OrderDao {
+
+    Order getOrderById(Integer orderId);
+
+    List<OrderItem> getOrderItemsByOrderId(Integer orderId);
 
     //order table 中需要取得 userId, totalAmount
     Integer createOrder(Integer userId, Integer totalAmount);

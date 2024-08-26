@@ -2,6 +2,7 @@ package com.chengshiun.springbootmall.controller;
 
 import com.chengshiun.springbootmall.dto.BuyItem;
 import com.chengshiun.springbootmall.dto.CreateOrderRequest;
+import com.chengshiun.springbootmall.model.Order;
 import com.chengshiun.springbootmall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ public class OrderController {
                                          @RequestBody CreateOrderRequest createOrderRequest) {
         Integer orderId = orderService.createOrder(userId, createOrderRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
+        //getOrderById() -> 取得訂單數據 與訂單清單數據
+        Order order = orderService.getOrderById(orderId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 }
