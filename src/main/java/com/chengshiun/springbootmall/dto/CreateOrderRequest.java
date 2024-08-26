@@ -1,11 +1,12 @@
 package com.chengshiun.springbootmall.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
 public class CreateOrderRequest {
-    @NotBlank
+    @NotEmpty
     private List<BuyItem> buyItemList;
 
     public List<BuyItem> getBuyItemList() {

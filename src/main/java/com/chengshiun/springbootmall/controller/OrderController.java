@@ -6,6 +6,7 @@ import com.chengshiun.springbootmall.dto.OrderQueryParams;
 import com.chengshiun.springbootmall.model.Order;
 import com.chengshiun.springbootmall.service.OrderService;
 import com.chengshiun.springbootmall.util.OrderPageUtil;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class OrderController {
     //建立訂單
     @PostMapping("/users/{userId}/orders")
     public ResponseEntity<?> createOrder(@PathVariable Integer userId,
-                                         @RequestBody CreateOrderRequest createOrderRequest) {
+                                         @RequestBody @Valid CreateOrderRequest createOrderRequest) {
         Integer orderId = orderService.createOrder(userId, createOrderRequest);
 
         //getOrderById() -> 取得訂單數據 與訂單清單數據
