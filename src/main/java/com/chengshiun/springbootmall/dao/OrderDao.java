@@ -1,5 +1,6 @@
 package com.chengshiun.springbootmall.dao;
 
+import com.chengshiun.springbootmall.dto.OrderQueryParams;
 import com.chengshiun.springbootmall.model.Order;
 import com.chengshiun.springbootmall.model.OrderItem;
 
@@ -16,4 +17,8 @@ public interface OrderDao {
 
     //order_item table 中需要取得 orderId, productId, quantity, amount
     void insertOrderItems(Integer orderId, List<OrderItem> orderItemList);
+
+    List<Order> getOrdersByUser(OrderQueryParams orderQueryParams);
+
+    Integer countOrder(OrderQueryParams orderQueryParams);
 }

@@ -5,6 +5,7 @@ import com.chengshiun.springbootmall.dao.ProductDao;
 import com.chengshiun.springbootmall.dao.UserDao;
 import com.chengshiun.springbootmall.dto.BuyItem;
 import com.chengshiun.springbootmall.dto.CreateOrderRequest;
+import com.chengshiun.springbootmall.dto.OrderQueryParams;
 import com.chengshiun.springbootmall.model.Order;
 import com.chengshiun.springbootmall.model.OrderItem;
 import com.chengshiun.springbootmall.model.Product;
@@ -114,5 +115,29 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderItemList(orderItemList);
 
         return order;
+    }
+
+    @Override
+    public List<Order> getOrdersByUser(OrderQueryParams orderQueryParams) {
+        //先從所有訂單中 取得符合查詢條件的訂單
+        List<Order> orderList = orderDao.getOrdersByUser(orderQueryParams);
+
+        //把訂單中所有清單項目取出來放到 訂單中
+        //迴圈跑完 則每一筆訂單中都會有 一個清單項目(orderItemList)
+        for (Order order : orderList) {
+
+            //getOrderItemsByOrderId() -> 找到同筆訂單中的所有清單項目
+            List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(order.getOrderId());
+
+            order.setOrderItemList(orderItemList);
+        }
+
+        return orderList;
+    }
+
+    @Override
+    public Integer countOrder(OrderQueryParams orderQueryParams) {
+
+        return orderDao.countOrder(orderQueryParams);
     }
 }
