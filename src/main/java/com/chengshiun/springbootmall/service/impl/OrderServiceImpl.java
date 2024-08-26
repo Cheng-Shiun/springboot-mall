@@ -2,16 +2,22 @@ package com.chengshiun.springbootmall.service.impl;
 
 import com.chengshiun.springbootmall.dao.OrderDao;
 import com.chengshiun.springbootmall.dao.ProductDao;
+import com.chengshiun.springbootmall.dao.UserDao;
 import com.chengshiun.springbootmall.dto.BuyItem;
 import com.chengshiun.springbootmall.dto.CreateOrderRequest;
 import com.chengshiun.springbootmall.model.Order;
 import com.chengshiun.springbootmall.model.OrderItem;
 import com.chengshiun.springbootmall.model.Product;
+import com.chengshiun.springbootmall.model.User;
 import com.chengshiun.springbootmall.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AliasFor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +31,24 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductDao productDao;
 
+    @Autowired
+    private UserDao userDao;
+
+    private final static Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
+
     //創建訂單 -> 新增 order table, order_item table
     //(使用@Transactional 避免其中一個 table 數據新增失敗)
     @Transactional
     @Override
     public Integer createOrder(Integer userId, CreateOrderRequest createOrderRequest) {
+        //檢查 user 是否存在(是有註冊過的)
+        User user = userDao.getUserById(userId);
+
+        if (user == null) {
+            log.warn("該 user_id {} 尚未註冊", userId);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         //該筆訂單的總花費計算
         int totalAmount = 0;
 
@@ -41,6 +60,20 @@ public class OrderServiceImpl implements OrderService {
 
             //透過 productId 取得商品數據
             Product product = productDao.getProductById(buyItem.getProductId());
+
+            //檢查 product 是否存在
+            if (product == null) {
+                log.warn("查無該 product_id {} 之商品，請另外挑選", buyItem.getProductId());
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            //若存在 -> 檢查庫存數量是否足夠
+            } else if (product.getStock() < buyItem.getQuantity()) {
+                log.warn("該 product_id {} 之商品庫存不足，無法購買", product.getProductId());
+                log.warn("庫存數量: {} / 欲購買數量: {}", product.getStock(), buyItem.getQuantity());
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            }
+
+            //通過檢查 -> 更新商品庫存量
+            productDao.updateStock(product.getProductId(), product.getStock() - buyItem.getQuantity());
 
             //商品花費 = 單價(商品數據 中可取得) * 數量(每項 購買商品數據 中可取得)
             int amount = product.getPrice() * buyItem.getQuantity();
