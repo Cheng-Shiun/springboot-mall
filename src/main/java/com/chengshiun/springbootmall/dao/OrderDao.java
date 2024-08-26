@@ -12,8 +12,8 @@ public interface OrderDao {
     List<OrderItem> getOrderItemsByOrderId(Integer orderId);
 
     //order table 中需要取得 userId, totalAmount
-    Integer createOrder(Integer userId, Integer totalAmount);
+    Integer insertOrder(Integer userId, Integer totalAmount);
 
     //order_item table 中需要取得 orderId, productId, quantity, amount
-    void createOrderItems(Integer orderId, List<OrderItem> orderItemList);
+    void insertOrderItems(Integer orderId, List<OrderItem> orderItemList);
 }

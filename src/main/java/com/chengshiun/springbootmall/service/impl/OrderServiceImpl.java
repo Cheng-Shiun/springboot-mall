@@ -51,8 +51,8 @@ public class OrderServiceImpl implements OrderService {
             //buyItem -> orderItem
             //將每項 購買商品數據 轉換為 訂單數據
             OrderItem orderItem = new OrderItem();
-            orderItem.setProductId(buyItem.getProductId());
-            orderItem.setQuantity(buyItem.getQuantity());
+            orderItem.setProductId(buyItem.getProductId());   //請求參數中的購買數據
+            orderItem.setQuantity(buyItem.getQuantity());     //請求參數中的購買數據
             orderItem.setAmount(amount);
 
             //每筆 訂單數據 存入 訂單清單中
@@ -60,17 +60,17 @@ public class OrderServiceImpl implements OrderService {
         }
 
         //創建一筆訂單 (取得該筆訂單的 orderId)
-        Integer orderId = orderDao.createOrder(userId, totalAmount);
+        Integer orderId = orderDao.insertOrder(userId, totalAmount);
 
 
         //同時也創建 訂單詳細記錄 (使用 userId 去關聯)
-        orderDao.createOrderItems(orderId, orderItemList);
+        orderDao.insertOrderItems(orderId, orderItemList);
 
         return orderId;
     }
 
     @Override
-    public Order getOrderById(Integer orderId) {
+    public Order getFullOrderById(Integer orderId) {
         //取得訂單數據
         Order order = orderDao.getOrderById(orderId);
 

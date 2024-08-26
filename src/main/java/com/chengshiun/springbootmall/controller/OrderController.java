@@ -23,7 +23,7 @@ public class OrderController {
         Integer orderId = orderService.createOrder(userId, createOrderRequest);
 
         //getOrderById() -> 取得訂單數據 與訂單清單數據
-        Order order = orderService.getOrderById(orderId);
+        Order order = orderService.getFullOrderById(orderId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }

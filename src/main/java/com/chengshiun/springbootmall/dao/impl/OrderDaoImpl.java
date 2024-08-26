@@ -56,7 +56,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Integer createOrder(Integer userId, Integer totalAmount) {
+    public Integer insertOrder(Integer userId, Integer totalAmount) {
         String sql = "INSERT INTO `order`(user_id, total_amount, created_date, last_modified_date)" +
                 "VALUES (:userId, :totalAmount, :createdDate, :lastModifiedDate)";
 
@@ -78,7 +78,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void createOrderItems(Integer orderId, List<OrderItem> orderItemList) {
+    public void insertOrderItems(Integer orderId, List<OrderItem> orderItemList) {
         String sql = "INSERT INTO order_item(order_id, product_id, quantity, amount)" +
                 "VALUES (:orderId, :productId, :quantity, :amount)";
 
