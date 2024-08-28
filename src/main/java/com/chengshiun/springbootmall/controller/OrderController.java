@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Validated
 public class OrderController {
 
     @Autowired
@@ -40,7 +42,7 @@ public class OrderController {
     public ResponseEntity<OrderPageUtil<Order>> getOrders(@PathVariable Integer userId,
                                                  @RequestParam (defaultValue = "10") @Min(0) @Max(100) Integer limit,
                                                  @RequestParam (defaultValue = "0") @Min(0) Integer offset) {
-        //將所有前段請求參數放入 dto 傳遞
+        //將所有前端請求參數放入 dto 傳遞
         OrderQueryParams orderQueryParams = new OrderQueryParams();
         orderQueryParams.setUserId(userId);
         orderQueryParams.setLimit(limit);

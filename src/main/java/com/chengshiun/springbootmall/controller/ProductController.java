@@ -24,6 +24,13 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+
+    //查詢所有資料庫商品
+    public List<Product> getAllProducts() {
+
+        return productService.getAllProducts();
+    }
+
     //查詢商品
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId) {

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>免費註冊</h1>
+    <form th:action="@{/users/register}" th:object="${userRegisterRequest}" method="post">
+        <label>電子信箱:</label>
+        <input type="text" th:field="*{email}" /><br/>
+
+        <label>密碼:</label>
+        <input type="password" th:field="*{password}" /><br/>
+
+        <button type="submit">註冊</button>
+    </form>
+
+    <div th:if="${user}">
+        <p>註冊成功! 即將跳至登入頁面, <span th:text="${user.email}">User</span></p>
+    </div>
+
+    <div th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>登入</h1>
+    <form th:action="@{/users/login}" th:object="${userLoginRequest}" method="post">
+        <label>電子信箱:</label>
+        <input type="text" th:field="*{userEmail}" /><br/>
+
+        <label>密碼:</label>
+        <input type="password" th:field="*{userPassword}" /><br/>
+
+        <button type="submit">登入</button>
+    </form>
+
+    <div th:if="${user}">
+        <p>登入成功! 即將跳轉回首頁, <span th:text="${user.email}">Email</span></p>
+    </div>
+
+    <div th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
+</body>
+</html>
